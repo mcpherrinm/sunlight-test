@@ -71,6 +71,9 @@ services:
     depends_on:
       sunlight-setup:
         condition: service_completed_successfully
+    healthcheck:
+      test: ["CMD", "curl", "-I", "http://localhost:7000"]
+      interval: 5s
   preloader:
     command:
       - /bin/preloader
@@ -82,7 +85,9 @@ services:
       context: preloader
       args:
         GO_VERSION: 1.21.5
-    depends_on: [sunlight]
+    depends_on:
+      sunlight:
+        condition: service_healthy
     networks:
       net:
 volumes:
