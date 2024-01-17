@@ -2,8 +2,8 @@ version: '3'
 
 services:
   minio:
-    image: quay.io/minio/minio:RELEASE.2024-01-16T16-07-38Z
-    command: server --address ":9000" --console-address ":9001" /data
+    image: "quay.io/minio/minio:RELEASE.2024-01-16T16-07-38Z"
+    command: ["server", "--address", ":9000", "--console-address", ":9001", "/data"]
     ports:
       - "127.0.0.1:9000:9000"
       - "127.0.0.1:9001:9001"
@@ -54,12 +54,10 @@ services:
       - type: bind
         source: ./sunlight/etc
         target: /etc/sunlight
-    ports:
-      - "127.0.0.1:7000:7000"
     environment:
       - AWS_ACCESS_KEY_ID=minioadmin
       - AWS_SECRET_ACCESS_KEY=minioadmin
-    command: /bin/sunlight -create -c /etc/sunlight/sunlight.yaml
+    command: ["/bin/sunlight", "-create", "-c", "/etc/sunlight/sunlight.yaml"]
     depends_on:
       setup:
         condition: service_completed_successfully
@@ -67,20 +65,21 @@ services:
       net:
   sunlight:
     <<: *sunlight-setup
-    command: /bin/sunlight -c /etc/sunlight/sunlight.yaml
+    ports:
+      - "127.0.0.1:7600:7600"
+    command: ["/bin/sunlight", "-c", "/etc/sunlight/sunlight.yaml"]
     depends_on:
       sunlight-setup:
         condition: service_completed_successfully
     healthcheck:
-      test: ["CMD", "curl", "-I", "http://localhost:7000"]
+      test: ["CMD", "curl", "-I", "http://localhost:7600"]
       interval: 5s
   preloader:
     command:
-      - /bin/preloader
-      - -source_log_uri
-      - https://sapling.ct.letsencrypt.org/2024h1
-      - -target_log_uri
-      - http://sunlight:7000/lamp
+      - "/bin/preloader"
+      - "-source_log_uri=https://sapling.ct.letsencrypt.org/2024h2"
+      - "-target_log_uri=http://sunlight:7600/lamp"
+      - "-parallel_submit=128"
     build:
       context: preloader
       args:

@@ -1,4 +1,4 @@
-listen: ":7000"
+listen: ":7600"
 
 acme:
   email: root@sunlight
