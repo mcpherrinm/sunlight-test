@@ -1,0 +1,25 @@
+listen: ":7000"
+
+acme:
+  email: root@sunlight
+  host: sunlight
+  cache: /cache/autocert
+
+dynamodb:
+  region: localhost
+  table: ct-lamp
+  endpoint: http://dynamo:8000/
+
+logs:
+  - name: lamp
+    shortname: lamp
+    httpprefix: /lamp
+    roots: /etc/sunlight/roots.pem
+    key: /etc/sunlight/lamp.pem
+    cache: /cache/lamp.db
+    poolsize: 750
+    s3region: localhost
+    s3bucket: ct-lamp
+    s3endpoint: http://minio:9000
+    notafterstart: 2000-01-01T00:00:00Z
+    notafterlimit: 2100-01-01T00:00:00Z
