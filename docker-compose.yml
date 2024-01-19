@@ -72,18 +72,24 @@ services:
       sunlight-setup:
         condition: service_completed_successfully
     healthcheck:
-      test: ["CMD", "curl", "-I", "http://localhost:7600"]
+      test: ["CMD", "curl", "-I", "https://sunlight:7600", "--cacert", "/etc/sunlight/pki/minica.pem"]
       interval: 5s
   preloader:
     command:
       - "/bin/preloader"
       - "-source_log_uri=https://sapling.ct.letsencrypt.org/2024h2"
-      - "-target_log_uri=http://sunlight:7600/lamp"
+      - "-target_log_uri=https://sunlight:7600/lamp"
       - "-parallel_submit=128"
+    environment:
+      - "SSL_CERT_FILE=/etc/sunlight/pki/minica.pem"
     build:
       context: preloader
       args:
         GO_VERSION: 1.21.5
+    volumes:
+      - type: bind
+        source: ./sunlight/etc/pki/minica.pem
+        target: /etc/sunlight/pki/minica.pem
     depends_on:
       sunlight:
         condition: service_healthy
