@@ -67,13 +67,25 @@ services:
     <<: *sunlight-setup
     ports:
       - "127.0.0.1:7600:7600"
-    command: ["/bin/sunlight", "-c", "/etc/sunlight/sunlight.yaml"]
+    working_dir: /
+    command: ["/bin/sunlight", "-testcert", "-c", "/etc/sunlight/sunlight.yaml"]
     depends_on:
       sunlight-setup:
         condition: service_completed_successfully
     healthcheck:
       test: ["CMD", "curl", "-I", "https://sunlight:7600", "--cacert", "/etc/sunlight/pki/minica.pem"]
       interval: 5s
+    volumes:
+      - cache:/cache
+      - type: bind
+        source: ./sunlight/etc
+        target: /etc/sunlight
+      - type: bind
+        source: ./sunlight/etc/pki/sunlight/cert.pem
+        target: /sunlight.pem
+      - type: bind
+        source: ./sunlight/etc/pki/sunlight/key.pem
+        target: /sunlight-key.pem
   preloader:
     command:
       - "/bin/preloader"
