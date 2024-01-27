@@ -67,34 +67,25 @@ services:
     <<: *sunlight-setup
     ports:
       - "127.0.0.1:7600:7600"
-    command: ["/bin/sunlight", "-c", "/etc/sunlight/sunlight.yaml"]
+    working_dir: /
+    command: ["/bin/sunlight", "-testcert", "-c", "/etc/sunlight/sunlight.yaml"]
     depends_on:
       sunlight-setup:
         condition: service_completed_successfully
     healthcheck:
       test: ["CMD", "curl", "-I", "https://sunlight:7600", "--cacert", "/etc/sunlight/pki/minica.pem"]
       interval: 5s
-  preloader:
-    command:
-      - "/bin/preloader"
-      - "-source_log_uri=https://sapling.ct.letsencrypt.org/2024h2"
-      - "-target_log_uri=https://sunlight:7600/lamp"
-      - "-parallel_submit=128"
-    environment:
-      - "SSL_CERT_FILE=/etc/sunlight/pki/minica.pem"
-    build:
-      context: preloader
-      args:
-        GO_VERSION: 1.21.5
     volumes:
+      - cache:/cache
       - type: bind
-        source: ./sunlight/etc/pki/minica.pem
-        target: /etc/sunlight/pki/minica.pem
-    depends_on:
-      sunlight:
-        condition: service_healthy
-    networks:
-      net:
+        source: ./sunlight/etc
+        target: /etc/sunlight
+      - type: bind
+        source: ./sunlight/etc/pki/sunlight/cert.pem
+        target: /sunlight.pem
+      - type: bind
+        source: ./sunlight/etc/pki/sunlight/key.pem
+        target: /sunlight-key.pem
 volumes:
   minio_data:
   dynamo_data:

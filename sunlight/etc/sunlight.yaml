@@ -1,14 +1,10 @@
 listen: ":7600"
 
-#acme:
-#  email: root@sunlight
-#  host: sunlight.pihouse.ca
-#  cache: /cache/autocert
-#  directory: https://acme-staging-v02.api.letsencrypt.org/directory
-
-tls:
-  certfile: /etc/sunlight/pki/sunlight/cert.pem
-  keyfile: /etc/sunlight/pki/sunlight/key.pem
+acme:
+  email: root@sunlight
+  host: sunlight
+  cache: /cache/autocert
+  directory: https://acme-staging-v02.api.letsencrypt.org/directory
 
 dynamodb:
   region: localhost
