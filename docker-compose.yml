@@ -86,27 +86,6 @@ services:
       - type: bind
         source: ./sunlight/etc/pki/sunlight/key.pem
         target: /sunlight-key.pem
-  preloader:
-    command:
-      - "/bin/preloader"
-      - "-source_log_uri=https://sapling.ct.letsencrypt.org/2024h2"
-      - "-target_log_uri=https://sunlight:7600/lamp"
-      - "-parallel_submit=128"
-    environment:
-      - "SSL_CERT_FILE=/etc/sunlight/pki/minica.pem"
-    build:
-      context: preloader
-      args:
-        GO_VERSION: 1.21.5
-    volumes:
-      - type: bind
-        source: ./sunlight/etc/pki/minica.pem
-        target: /etc/sunlight/pki/minica.pem
-    depends_on:
-      sunlight:
-        condition: service_healthy
-    networks:
-      net:
 volumes:
   minio_data:
   dynamo_data:
