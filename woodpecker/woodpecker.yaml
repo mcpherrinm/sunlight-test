@@ -1,0 +1,12 @@
+basedomain: test.invalid
+logs:
+ - publickey: []
+   url: https://sunlight:7600/lamp
+   notafterstart: 2000-01-01T00:00:00Z
+   notafterlimit: 2100-01-01T00:00:00Z
+
+cakeypath: /etc/sunlight/pki/minica-key.pem
+cacertpath: /etc/sunlight/pki/minica.pem
+
+parallelism: 500
+iterations: 10

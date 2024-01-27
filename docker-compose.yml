@@ -86,6 +86,27 @@ services:
       - type: bind
         source: ./sunlight/etc/pki/sunlight/key.pem
         target: /sunlight-key.pem
+  woodpecker:
+    build:
+      context: woodpecker
+      args:
+        GO_VERSION: 1.21.5
+    command: ["/bin/woodpecker", "-c", "/etc/woodpecker.yaml"]
+    environment:
+      - "SSL_CERT_FILE=/etc/sunlight/pki/minica.pem"
+    depends_on:
+      sunlight:
+        condition: service_healthy
+    volumes:
+      - cache:/cache
+      - type: bind
+        source: ./sunlight/etc/pki
+        target: /etc/sunlight/pki
+      - type: bind
+        source: ./woodpecker/woodpecker.yaml
+        target: /etc/woodpecker.yaml
+    networks:
+      net:
 volumes:
   minio_data:
   dynamo_data:
