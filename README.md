@@ -5,7 +5,6 @@ This is a Docker Compose file that runs:
  * filippo.io/sunlight
  * minio
  * local dynamodb
- * certificate-transparency-go preloader
+ * sunlight-woodpecker 
 
-This setup copies an existing external log, using preloader, into a Sunlight
-instance that is backed by a local minio.
+Sunlight-woodpecker generates and submits certs to the sunlight log.
