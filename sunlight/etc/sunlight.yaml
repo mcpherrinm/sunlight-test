@@ -17,6 +17,7 @@ logs:
     httpprefix: /lamp
     roots: /etc/sunlight/roots.pem
     key: /etc/sunlight/lamp.pem
+    publickey: "MFkwEwYHKoZIzj0CAQYIKoZIzj0DAQcDQgAET5SeCkN9c5D1EX83UrxE+RVELctT0YkgZ6MtERFimRNjxiU4+nXOalvFdfQugEp89q29j41zUCxk4Tj91uvnKA=="
     cache: /cache/lamp.db
     poolsize: 750
     s3region: localhost
