@@ -23,5 +23,6 @@ logs:
     s3region: localhost
     s3bucket: ct-lamp
     s3endpoint: http://minio:9000
+    s3keyprefix: "keyprefix"
     notafterstart: 2000-01-01T00:00:00Z
     notafterlimit: 2100-01-01T00:00:00Z
