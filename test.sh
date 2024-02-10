@@ -18,7 +18,7 @@ docker compose up -d
 docker wait sunlight-test-woodpecker-1
 
 # Print logs
-for ctr in sunlight-test-woodpecker-1 sunlight-test-sunlight-1 sunlight-test-sunlight-setup-1 sunlight-test-setup-1 sunlight-test-minio-1 sunlight-test-dynamo-1; do 
-  echo "logs for $ctr"
-  docker logs $ctr
+for ctr in minio dynamo setup sunlight-setup sunlight woodpecker; do
+  echo "logs for $ctr:"
+  docker logs "sunlight-test-$ctr-1"
 done
