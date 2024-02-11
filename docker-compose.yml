@@ -48,7 +48,7 @@ services:
     build:
       context: sunlight
       args:
-        GO_VERSION: 1.21.5
+        GO_VERSION: 1.22.0
     volumes:
       - cache:/cache
       - type: bind
@@ -90,7 +90,7 @@ services:
     build:
       context: woodpecker
       args:
-        GO_VERSION: 1.21.5
+        GO_VERSION: 1.22.0
     command: ["/bin/woodpecker", "-c", "/etc/woodpecker.yaml"]
     environment:
       - "SSL_CERT_FILE=/etc/sunlight/pki/minica.pem"

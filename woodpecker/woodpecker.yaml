@@ -1,6 +1,6 @@
-basedomain: test.invalid
+basedomain: woodpecker.test
 logs:
- - publickey: []
+ - publickey: "MFkwEwYHKoZIzj0CAQYIKoZIzj0DAQcDQgAET5SeCkN9c5D1EX83UrxE+RVELctT0YkgZ6MtERFimRNjxiU4+nXOalvFdfQugEp89q29j41zUCxk4Tj91uvnKA=="
    url: https://sunlight:7600/lamp
    notafterstart: 2000-01-01T00:00:00Z
    notafterlimit: 2100-01-01T00:00:00Z
