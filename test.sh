@@ -23,4 +23,9 @@ docker compose build
 docker compose up -d --wait
 
 # Wait for woodpecker to finish
-docker wait sunlight-test-woodpecker-1
+RET=$(docker wait sunlight-test-woodpecker-1)
+if [ "$RET" != "0" ]; then
+  echo "woodpecker returned $RET"
+  exit 1
+fi
+echo "Success"
